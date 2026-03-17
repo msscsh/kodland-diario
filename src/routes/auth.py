@@ -9,9 +9,8 @@ def login():
     if request.method == 'POST':
         usuario = request.form.get('usuario')
         senha = request.form.get('senha')
-        
-        if usuario == 'admin' and senha == 'admin':
-            user = User(id=usuario)
+        if (usuario == 'girafales' and senha == 'girafales') or (usuario == 'pardal' and senha == 'pardal') :
+            user = User.get(usuario) 
             login_user(user)
             return render_template('index.html', usuario=current_user)
         else:

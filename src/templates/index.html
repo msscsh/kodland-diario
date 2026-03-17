@@ -6,7 +6,7 @@
 <body>
     <h2>Área segura</h2>
     {% if usuario.is_authenticated %}
-        <p>Você logou como <strong>{{ usuario.id }}</strong>!</p>
+        <p>Você logou como <strong>{{ usuario.nome }}</strong>!</p>
         <p><a href="{{ url_for('auth.logout') }}">Sair</a></p>
     {% endif %}
 </body>
