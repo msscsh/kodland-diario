@@ -1,0 +1,42 @@
+<style>
+  .centralizador {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+  }
+
+  .grid-principal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+    max-width: 600px;
+  }
+
+  .label-input {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
+<div class="centralizador">
+  <form method="POST">
+      <h2>Login</h2>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}<p style="color:rgb(255, 208, 0)">{{ messages[0] }}</p>{% endif %}
+      {% endwith %}
+      <div class="grid-principal">
+          <div class="label-input">
+              <label>Usuário</label>
+              <input type="text" name="usuario" required><br>
+          </div>
+          <div class="label-input">
+              <label>Senha</label>
+              <input type="password" name="senha" required><br>
+          </div>
+          <div>
+              <button type="submit">Entrar</button>
+          </div>
+      </div>
+  </form>
+</div>
