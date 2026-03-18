@@ -12,11 +12,9 @@ O que não é foco neste projeto? Persistencia de dados em banco de dados relaci
 ## Visualizar anotações pedagógicas do estudante
 
 # Configuração
-
 ## Pré-requisitos
 ### Python 3
 sudo apt install python3
-
 ### Ambiente virtual para isolamento
 sudo apt install python3.12-venv
 python3 -m venv .venv
@@ -30,10 +28,10 @@ source .venv/bin/activate
 python3 src/app.py
 
 # Usuários de teste
-## pardal
+### pardal
     usuário: pardal
     senha: pardal
-## girafales
+### girafales
     usuário: girafales
     senha: girafales
 
