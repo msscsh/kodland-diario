@@ -5,9 +5,76 @@
 </head>
 <body>
     <h2>Área segura</h2>
-    {% if usuario.is_authenticated %}
-        <p>Você logou como <strong>{{ usuario.nome }}</strong>!</p>
-        <p><a href="{{ url_for('auth.logout') }}">Sair</a></p>
+    {% if educador.is_authenticated %}
+        <p>Você logou como <strong>{{ educador.nome }}</strong>! <a href="{{ url_for('auth.logout') }}">Sair</a></p>
+        
+        <h3>Registrar Atividade</h3>
+
+        <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 400px;">
+            <label for="selecao-estudante">Selecione o Estudante:</label>
+            <select id="selecao-estudante" style="width: 100%; padding: 8px; margin-bottom: 15px;">
+                <option value="" disabled selected>Escolha um estudante...</option>
+                {% for estudante in estudantes %}
+                    <option value="{{ estudante.matricula }}">{{ estudante.nome }} (Matrícula: {{ estudante.matricula }})</option>
+                {% endfor %}
+            </select>
+            <div id="acoes-rapidas" style="display: none;">
+                <form id="form-presenca" method="POST" style="display: inline;">
+                    <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer;">
+                        Presente!
+                    </button>
+                </form>
+
+                <hr>
+
+                <form id="form-anotacao" method="POST">
+                    <textarea 
+                        id="anotacao-campo"
+                        name="anotacao" 
+                        rows="4" 
+                        placeholder="Anotação importante para este estudante..." 
+                        required 
+                        style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: sans-serif; resize: vertical;"
+                    ></textarea>
+                    <button type="submit" style="background-color: #ffc107; border: none; padding: 10px; cursor: pointer; margin-top: 10px;">
+                        Gravar anotação do estudante
+                    </button>
+                </form>
+                <a id="link-perfil" 
+                href="#" 
+                data-base-url="{{ url_for('gestao.recuperar_dados_do_estudante', matricula_do_estudante='999999') }}" 
+                class="btn" 
+                style="display: none;">
+                Ir para o perfil do estudante
+                </a>
+            </div>
+        </div>
+
+        <script>
+            const select = document.getElementById('selecao-estudante');
+            const acoes = document.getElementById('acoes-rapidas');
+            const formPresenca = document.getElementById('form-presenca');
+            const formAnotacao = document.getElementById('form-anotacao');
+            const linkPerfil = document.getElementById('link-perfil');
+            const baseUrl = linkPerfil.getAttribute('data-base-url');
+
+            select.addEventListener('change', function() {
+                const matricula = this.value;
+                if (matricula) {
+                    acoes.style.display = 'block';
+                    formPresenca.action = `/gestao/estudante/${matricula}/presenca`;
+                    formAnotacao.action = `/gestao/estudante/${matricula}/anotacao`;
+                    const novaUrl = baseUrl.replace('999999', matricula);        
+                    linkPerfil.href = novaUrl;
+                    linkPerfil.style.display = 'inline-block';
+                    document.getElementById('msgs').innerText = '';
+                }
+            });
+        </script>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}<p id="msgs" style="color:rgb(0, 60, 255)">{{ messages[0] }}</p>{% endif %}
+        {% endwith %}
     {% endif %}
 </body>
 </html>

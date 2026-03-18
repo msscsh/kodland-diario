@@ -3,7 +3,7 @@ Projeto de apresentação da Kodland com o objetivo de servir como diário escol
 
 # Escopo técnico
 Este projeto visa mostrar a utilização da biblioteca flask juntamente com o flask-login. Também é abordado aqui uma arquitetura MVC básica, utilizaçao de classes, autenticação, e separação de rotas com blueprint.
-O que não é foco neste projeto? Persistencia de dados em banco de dados relacional, não  relacional ou em arquivos, código seguro e UX.
+O que não é foco neste projeto? Persistencia de dados em banco de dados relacional, não  relacional ou em arquivos, código seguro, UX e separação de estilos em arquivos css.
 
 # Funcionalidades
 ## Incluir estudante

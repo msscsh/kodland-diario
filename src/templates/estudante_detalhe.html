@@ -1,0 +1,80 @@
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
+
+<style>
+
+  .centralizador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .grid-principal {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+  }
+
+  .calendario {
+    max-width: 600px;
+    max-height: 450px;
+    margin: 10px 0;
+  }
+
+  .insignia-presenca {
+    border-radius: 18px;
+    background-color: blue;
+    border-color: gray;
+    max-width: 20px;
+    min-width: 20px;
+  }
+  .insignia-anotacao {
+    border-radius: 18px;
+    border-color: gray;
+    background-color: yellowgreen;
+    max-width: 20px;
+    min-width: 20px;
+  }
+  .fc-daygrid-day-events {
+    display: flex;
+  }
+</style>
+
+<nav style="margin-bottom: 20px;">
+    <a href="{{ url_for('home') }}" class="btn-secondary">
+        &larr; Voltar para Gestão
+    </a>
+</nav>
+
+<div class="centralizador grid-principal">
+    <div>
+        <h2>{{ estudante.nome }}</h2>
+        <p id="descricaoEvento"></p>
+    </div>
+    <div>
+        <h2>Anotações pedagógicas</h2>
+        <div id="calendar" class="calendario"></div>
+    </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'pt-br',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,dayGridWeek'
+      },
+      eventMouseEnter: function(info) {
+        document.getElementById('descricaoEvento').innerText = info.event.extendedProps.description;
+      },
+      eventMouseLeave: function(info) {
+        document.getElementById('descricaoEvento').innerText = ''
+      },
+      events: {{ eventos | tojson | safe }}
+    });
+    calendar.render();
+  });
+</script>

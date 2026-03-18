@@ -1,17 +1,17 @@
 from flask_login import UserMixin
 
-class User(UserMixin):
+class Educador(UserMixin):
     def __init__(self, id, nome):
         self.id = id
         self.nome = 'Professor ' + nome
     
     @staticmethod
     def get(id):
-        usuarios = {
+        educadores = {
             "girafales": {"nome": "Girafales", "senha": "girafales"},
             "pardal": {"nome": "Pardal", "senha": "pardal"}
         }
-        if id in usuarios:
-            dados = usuarios[id]
-            return User(id=id, nome=dados["nome"])
+        if id in educadores:
+            dados = educadores[id]
+            return Educador(id=id, nome=dados["nome"])
         return None

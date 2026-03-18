@@ -1,0 +1,17 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página não encontrada</title>
+</head>
+<body>
+    <h1>Página não encontrada</h1>
+    <p>A requisição solicitada não foi encontrada em nosso sistema.</p>
+    <p><strong>Detalhe:</strong></p>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p style="color:rgb(255, 208, 0)">{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
+    <a href="/" class="btn">Ir para página inicial</a>
+</body>
+</html>
