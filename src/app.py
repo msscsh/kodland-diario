@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template
 from flask_login import LoginManager, login_required, current_user
 from model.educador import Educador
 from model.estudante import Estudante
@@ -21,7 +21,8 @@ app.register_blueprint(gestao_blueprint)
 @login_required
 def home():
     estudantes = Estudante.listar_todos()
-    return render_template('index.html', educador=current_user, estudantes=estudantes)
+    matricula_selecionada = request.args.get('matricula')
+    return render_template('index.html', educador=current_user, estudantes=estudantes, matricula=matricula_selecionada)
 
 @login_manager.user_loader
 def load_user(user_id):

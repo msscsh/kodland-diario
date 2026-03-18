@@ -6,10 +6,10 @@ Este projeto visa mostrar a utilização da biblioteca flask juntamente com o fl
 O que não é foco neste projeto? Persistencia de dados em banco de dados relacional, não  relacional ou em arquivos, código seguro, UX e separação de estilos em arquivos css.
 
 # Funcionalidades
-## Incluir estudante
+## Autenticação
 ## Registrar presença do estudante
-## Registrar notas informativas do estudante
-
+## Registrar anotações de classe do estudante
+## Visualizar anotações pedagógicas do estudante
 
 # Configuração
 
@@ -29,4 +29,11 @@ deactivate
 source .venv/bin/activate
 python3 src/app.py
 
+# Usuários de teste
+## pardal
+    usuário: pardal
+    senha: pardal
+## girafales
+    usuário: girafales
+    senha: girafales
 

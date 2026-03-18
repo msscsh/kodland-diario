@@ -31,7 +31,7 @@ def incluir_anotacao_do_estudante(matricula_do_estudante):
     if matricula_do_estudante in estudantes_db:
         estudantes_db[matricula_do_estudante]["anotacoes"].append([hoje, texto])
         flash(f'Anotação atribuída ao estudante {estudantes_db[matricula_do_estudante]["nome"]}')
-        return redirect(url_for('home'))
+        return redirect(url_for('home', matricula=matricula_do_estudante))
 
     else:
         flash('Matrícula inexistente ou não informada')
@@ -48,7 +48,7 @@ def incluir_presenca_do_estudante(matricula_do_estudante):
         else:
             flash(f'Presença já foi marcada para o estudante {estudantes_db[matricula_do_estudante]["nome"]}')
     
-    return redirect(url_for('home'))
+    return redirect(url_for('home', matricula=matricula_do_estudante))
 
 def formatar_data(data_original):
     partes = data_original.split('-')

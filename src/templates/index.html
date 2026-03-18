@@ -1,16 +1,39 @@
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Diário das turmas</title>
-</head>
-<body>
-    <h2>Área segura</h2>
-    {% if educador.is_authenticated %}
-        <p>Você logou como <strong>{{ educador.nome }}</strong>! <a href="{{ url_for('auth.logout') }}">Sair</a></p>
+<style>
+  .centralizador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+    margin-left: 35%;
+  }
+</style>
+
+
+<nav style="margin-bottom: 20px;">
+    <a href="{{ url_for('auth.logout') }}">
+        &larr; Logout
+    </a>
+</nav>
+
+<h2>Área segura</h2>
+<p>Bem vindo, <strong>{{ educador.nome }}</strong>!</p>
+
+{% if educador.is_authenticated %}
+
+    <div class="centralizador">
         
         <h3>Registrar Atividade</h3>
 
-        <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; max-width: 400px;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p id="msgs" style="color:rgb(0, 60, 255)">{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+
+        <div style="max-width: 400px;">
             <label for="selecao-estudante">Selecione o Estudante:</label>
             <select id="selecao-estudante" style="width: 100%; padding: 8px; margin-bottom: 15px;">
                 <option value="" disabled selected>Escolha um estudante...</option>
@@ -42,39 +65,38 @@
                 </form>
                 <a id="link-perfil" 
                 href="#" 
-                data-base-url="{{ url_for('gestao.recuperar_dados_do_estudante', matricula_do_estudante='999999') }}" 
+                data-base-url="{{ url_for('gestao.recuperar_dados_do_estudante', matricula_do_estudante='um_id') }}" 
                 class="btn" 
                 style="display: none;">
                 Ir para o perfil do estudante
                 </a>
             </div>
         </div>
+        <input type="hidden" name="matricula" id="matricula" value="{{matricula}}" >
+    </div>
 
-        <script>
-            const select = document.getElementById('selecao-estudante');
-            const acoes = document.getElementById('acoes-rapidas');
-            const formPresenca = document.getElementById('form-presenca');
-            const formAnotacao = document.getElementById('form-anotacao');
-            const linkPerfil = document.getElementById('link-perfil');
-            const baseUrl = linkPerfil.getAttribute('data-base-url');
+    <script>
 
-            select.addEventListener('change', function() {
-                const matricula = this.value;
-                if (matricula) {
-                    acoes.style.display = 'block';
-                    formPresenca.action = `/gestao/estudante/${matricula}/presenca`;
-                    formAnotacao.action = `/gestao/estudante/${matricula}/anotacao`;
-                    const novaUrl = baseUrl.replace('999999', matricula);        
-                    linkPerfil.href = novaUrl;
-                    linkPerfil.style.display = 'inline-block';
-                    document.getElementById('msgs').innerText = '';
-                }
-            });
-        </script>
+        const acoes = document.getElementById('acoes-rapidas');
+        const formPresenca = document.getElementById('form-presenca');
+        const formAnotacao = document.getElementById('form-anotacao');
+        const linkPerfil = document.getElementById('link-perfil');
+        const baseUrl = linkPerfil.getAttribute('data-base-url');
 
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}<p id="msgs" style="color:rgb(0, 60, 255)">{{ messages[0] }}</p>{% endif %}
-        {% endwith %}
-    {% endif %}
-</body>
-</html>
+        const select = document.getElementById('selecao-estudante');
+        select.addEventListener('change', function() {
+            const matricula = this.value;
+            if (matricula) {
+                acoes.style.display = 'block';
+                formPresenca.action = `/gestao/estudante/${matricula}/presenca`;
+                formAnotacao.action = `/gestao/estudante/${matricula}/anotacao`;
+                const novaUrl = baseUrl.replace('um_id', matricula);        
+                linkPerfil.href = novaUrl;
+                linkPerfil.style.display = 'inline-block';
+            }
+        });
+        select.value = document.getElementById('matricula').value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+    </script>
+
+{% endif %}
